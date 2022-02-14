@@ -7,6 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   roslint
+  kobuki_msgs
 )
 
 catkin_package(
