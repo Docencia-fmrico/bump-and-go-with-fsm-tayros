@@ -17,6 +17,7 @@
 
 #include "ros/ros.h"
 #include "geometry_msgs/Twist.h"
+#include "kobuki_msgs/Led.h"
 
 namespace fsm_bump_go
 {
@@ -46,6 +47,11 @@ private:
   static const int GOING_BACK = 1;
   static const int TURNING_LEFT = 2;
   static const int TURNING_RIGHT = 3;
+
+  static const int BLACK = 0;
+  static const int GREEN = 1;
+  static const int ORANGE = 2;
+  static const int RED = 3;
 	
   static constexpr double TURNING_TIME = 5.0;
   static constexpr double BACKING_TIME = 3.0;
@@ -54,6 +60,7 @@ private:
   static constexpr double ANGULAR_VELOCITY_Z = 0.4; 
 
   ros::Publisher pub_vel_;
+  ros::Publisher pub_led_;
 
   int state_;
 
