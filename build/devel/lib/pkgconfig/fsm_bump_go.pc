@@ -1,0 +1,8 @@
+prefix=/home/pocho/Git/Segundo_Curso-/arq_ros/ros1/catkin_ws/src/bump-and-go-with-fsm-tayros/build/devel
+
+Name: fsm_bump_go
+Description: Description of fsm_bump_go
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: roscpp std_msgs kobuki_msgs sensor_msgs

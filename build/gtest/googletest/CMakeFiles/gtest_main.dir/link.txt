@@ -1,0 +1,1 @@
+/bin/x86_64-linux-gnu-g++-9 -fPIC -g  -shared -Wl,-soname,libgtest_maind.so -o ../lib/libgtest_maind.so CMakeFiles/gtest_main.dir/src/gtest_main.cc.o  -Wl,-rpath,/home/pocho/Git/Segundo_Curso-/arq_ros/ros1/catkin_ws/src/bump-and-go-with-fsm-tayros/build/gtest/lib ../lib/libgtestd.so -lpthread 
