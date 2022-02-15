@@ -1,4 +1,4 @@
-// Copyright 2022 Intelligent Robotics Lab
+// Copyright 2022 TayRos
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,39 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "fsm_bump_go/BumpGo.h"
-#include "kobuki_msgs/BumperEvent.h"
+#include "fsm_bump_go/SensorGo.h"
 #include "geometry_msgs/Twist.h"
 #include "ros/ros.h"
 
 namespace fsm_bump_go
 {
 
-BumpGo::BumpGo()
-: state_(GOING_FORWARD),
-  pressed_(false)
+SensorGo::SensorGo()
 {
-  sub_bumber_ = n_.subscribe("/mobile_base/events/bumper", 1, &BumpGo::bumperCallback, this);
+  state_ = GOING_FORWARD;
+  pressed_ = false; 
+  turn_direction_ = TURN_LEFT;
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
 }
 
 void
-BumpGo::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
-{
-  ROS_INFO("State: [%d]", msg->state);
-  pressed_ = msg->state; 
-}
-
-void
-BumpGo::step()
+SensorGo::step()
 {
   geometry_msgs::Twist cmd;
 
   switch (state_)
   {
     case GOING_FORWARD:
-
-      cmd.linear.x = 0.2;
+    
+      cmd.linear.x = LINEAR_VELOCITY_X;
       cmd.angular.z = 0;
 
       if (pressed_)
@@ -57,29 +49,51 @@ BumpGo::step()
       break;
 
     case GOING_BACK:
-      cmd.linear.x = -0.2;
+      cmd.linear.x = -LINEAR_VELOCITY_X;
       cmd.angular.z = 0;
 
       if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
       {
         turn_ts_ = ros::Time::now();
-        state_ = TURNING;
-        ROS_INFO("GOING_BACK -> TURNING");
+        
+        if(turn_direction_ == TURN_LEFT)
+        {
+          state_ = TURNING_LEFT;
+          ROS_INFO("GOING_BACK -> TURNING_LEFT");
+        }
+        else 
+        {
+          state_ = TURNING_RIGHT;
+          ROS_INFO("GOING_BACK -> TURNING_RIGHT");
+        }
       }
 
       break;
 
-    case TURNING:
+    case TURNING_LEFT:
       cmd.linear.x = 0;
-      cmd.angular.z = 0.4;
+      cmd.angular.z = ANGULAR_VELOCITY_Z;
 
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
         state_ = GOING_FORWARD;
-        ROS_INFO("TURNING -> GOING_FORWARD");
+        ROS_INFO("TURNING_LEFT -> GOING_FORWARD");
       }
       break;
-    }
+    
+    case TURNING_RIGHT:
+      cmd.linear.x = 0;
+      cmd.angular.z = -ANGULAR_VELOCITY_Z;
+
+      if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
+      {
+        state_ = GOING_FORWARD;
+        ROS_INFO("TURNING_RIGHT -> GOING_FORWARD");
+      }
+      break;
+
+    break; 
+  }
 
     pub_vel_.publish(cmd);
 }
