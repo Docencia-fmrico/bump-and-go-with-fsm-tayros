@@ -27,7 +27,6 @@ FinalBumpGo::FinalBumpGo()
 void
 FinalBumpGo::sensorCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
-  ROS_INFO("State: [%d]", msg->state);
   pressed_ = msg->state; 
   bumper_ = msg->bumper; 
 

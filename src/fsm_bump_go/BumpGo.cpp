@@ -24,10 +24,8 @@ BumpGo::BumpGo()
 : state_(GOING_FORWARD),
   pressed_(false)
 {
-
   sub_bumber_ = n_.subscribe("/mobile_base/events/bumper", 1, &BumpGo::bumperCallback, this);
   pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
-
 }
 
 void
@@ -57,6 +55,7 @@ BumpGo::step()
       }
 
       break;
+
     case GOING_BACK:
       cmd.linear.x = -0.2;
       cmd.angular.z = 0;
@@ -69,6 +68,7 @@ BumpGo::step()
       }
 
       break;
+
     case TURNING:
       cmd.linear.x = 0;
       cmd.angular.z = 0.4;

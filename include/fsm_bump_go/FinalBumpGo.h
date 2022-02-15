@@ -31,7 +31,7 @@ public:
   FinalBumpGo();
 
 	// Functions 
-	void sensorCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);	// Need to implement center detection(LEFT || RIGHT)
+	void sensorCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);	
 
 private: 
 

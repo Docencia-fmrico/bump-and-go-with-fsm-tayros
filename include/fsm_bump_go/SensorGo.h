@@ -29,7 +29,6 @@ public:
   SensorGo();
 
 	// Functions 
-  //virtual void sensorCallback() = 0;	// Need to implement center detection(LEFT || RIGHT)
   void step();
 
 	// Instance variables(used in the virtual Callback)

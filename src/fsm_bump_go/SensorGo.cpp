@@ -47,6 +47,7 @@ SensorGo::step()
       }
 
       break;
+
     case GOING_BACK:
       cmd.linear.x = -LINEAR_VELOCITY_X;
       cmd.angular.z = 0;
@@ -68,6 +69,7 @@ SensorGo::step()
       }
 
       break;
+
     case TURNING_LEFT:
       cmd.linear.x = 0;
       cmd.angular.z = ANGULAR_VELOCITY_Z;
@@ -79,7 +81,6 @@ SensorGo::step()
       }
       break;
     
-
     case TURNING_RIGHT:
       cmd.linear.x = 0;
       cmd.angular.z = -ANGULAR_VELOCITY_Z;
