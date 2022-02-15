@@ -27,21 +27,21 @@ class FinalBumpGo : public SensorGo
 {
 public:
 
-	// Constructor
+  // Constructor
   FinalBumpGo();
 
-	// Functions 
-	void sensorCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);	
+  // Functions 
+   void sensorCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);	
 
 private: 
 
-	static const int LEFT = 0;
-	static const int CENTER = 1;
-	static const int RIGHT = 2;
+  static const int LEFT = 0;
+  static const int CENTER = 1;
+  static const int RIGHT = 2;
 
-	int bumper_; 
+  int bumper_; 
 
-	ros::Subscriber sub_sensor_;
+  ros::Subscriber sub_sensor_;
 };
 
 }  // namespace fsm_bump_go

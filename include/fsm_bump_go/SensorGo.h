@@ -25,18 +25,18 @@ class SensorGo
 {
 public:
 
-	// Constructor
+  // Constructor
   SensorGo();
 
-	// Functions 
+  // Functions 
   void step();
 
-	// Instance variables(used in the virtual Callback)
-	bool turn_direction_; // RIGHT OR LEFT
-	bool pressed_;
+  // Instance variables(used in the virtual Callback)
+  bool turn_direction_; // RIGHT OR LEFT
+  bool pressed_;
 
-	static const bool TURN_LEFT = true;  
-	static const bool TURN_RIGHT = false; 
+  static const bool TURN_LEFT = true;  
+  static const bool TURN_RIGHT = false; 
 
   ros::NodeHandle n_;
 
@@ -44,14 +44,14 @@ private:
 
   static const int GOING_FORWARD   = 0;
   static const int GOING_BACK = 1;
-	static const int TURNING_LEFT = 2;
+  static const int TURNING_LEFT = 2;
   static const int TURNING_RIGHT = 3;
 	
   static constexpr double TURNING_TIME = 5.0;
   static constexpr double BACKING_TIME = 3.0;
 
-	static constexpr double LINEAR_VELOCITY_X = 0.2; 
-	static constexpr double ANGULAR_VELOCITY_Z = 0.4; 
+  static constexpr double LINEAR_VELOCITY_X = 0.2; 
+  static constexpr double ANGULAR_VELOCITY_Z = 0.4; 
 
   ros::Publisher pub_vel_;
 
