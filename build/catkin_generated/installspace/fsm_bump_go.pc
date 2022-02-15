@@ -1,8 +1,0 @@
-prefix=/usr/local
-
-Name: fsm_bump_go
-Description: Description of fsm_bump_go
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: roscpp std_msgs kobuki_msgs sensor_msgs
