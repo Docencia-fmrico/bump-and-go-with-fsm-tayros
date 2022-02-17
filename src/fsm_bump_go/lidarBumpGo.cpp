@@ -31,14 +31,25 @@ void
 lidarBumpGo::sensorCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
   int size = msg->ranges.size();
-  center_ = size / 2;
+  center_ = 0;
   
   float nearest_distance = 100;
 
-  for (int i = center_ - range_ ; i <= center_ + range_ ; i++){ // Array index
+  for (int i = 0; i < range_; i++)
+  {
+    if (nearest_distance > msg->ranges[i]){
+      nearest_distance = msg->ranges[i];
+      nearest_position_ = 1; 
+
+               
+    }
+  }
+
+  for (int i = size-1; i > (size - range_); i--)
+  {
     if (nearest_distance > msg->ranges[i]){
         nearest_distance = msg->ranges[i];
-        nearest_position_ = i; 
+        nearest_position_ = 0; 
 
                
     }
@@ -48,13 +59,13 @@ lidarBumpGo::sensorCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   else { pressed_ = false ; }
   
 
-  if(nearest_position_ <= center_)
+  if(nearest_position_ <= 1)
   {
     turn_direction_ = TURN_RIGHT; 
   }
 
   // If bumper detects left or center, the robot turn left 
-  if (nearest_position_ > center_)
+  if (nearest_position_ > 0)
   {
     turn_direction_ = TURN_LEFT; 
   }
