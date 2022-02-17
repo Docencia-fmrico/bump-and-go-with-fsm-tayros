@@ -254,16 +254,39 @@ switch (state_)
 }
 ```
 -----------------------------------------------------------------------
+### Sound Implement
 
-Defining as constant the different colors in the SensorGo.h file:
+We decided to make a sound effect in GOING_BACK state of the Bump & Go finite state machine. When the kobuki is going backward, the kobuki make a sound error. In order to make this, we made a publisher for the sound topic.
 
 -----------------------------------------------------------------------
-Snippet(Led Implement):
+Snippet(sound Implement):
 ``` cpp
-  static const int BLACK = 0;
-  static const int GREEN = 1;
-  static const int ORANGE = 2;
-  static const int RED = 3;
+SensorGo::SensorGo()
+{
+  pub_sound_ = n_.advertise<kobuki_msgs::Sound>("/mobile_base/commands/sound", 1);
+...
+}
+
+void
+SensorGo::step()
+{
+   kobuki_msgs::Sound sound_control;
+...
+switch (state_)
+  {
+    sound_control.value = SOUND_ERROR;
+    pub_sound_.publish(sound_control);
+      ...
+}
+```
+-----------------------------------------------------------------------
+
+Defining as constant the sound error in the SensorGo.h file:
+
+-----------------------------------------------------------------------
+Snippet(sound Implement):
+``` cpp
+   static const int SOUND_ERROR = 4;
 ```
 -----------------------------------------------------------------------
 
