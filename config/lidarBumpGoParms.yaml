@@ -1,0 +1,4 @@
+sub_sensor_path: /scan_filtered
+
+DETECTION_DISTANCE: 0.5
+RANGE: 60

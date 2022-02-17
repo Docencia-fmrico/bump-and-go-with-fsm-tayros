@@ -20,13 +20,21 @@ namespace fsm_bump_go
 {
 
 SensorGo::SensorGo()
+:n_("~")
 {
-  state_ = GOING_FORWARD;
-  pressed_ = false;
-  turn_direction_ = TURN_LEFT;
-  pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
-  pub_led_ = n_.advertise<kobuki_msgs::Led>("/mobile_base/commands/led1", 1);
+  // Roslaunch params 
+  std::string pub_vel_path =  n_.param("pub_vel_path", std::string("/mobile_base/commands/velocity"));
+  std::string pub_led_path =  n_.param("pub_led_path", std::string("/mobile_base/commands/led1"));
+
+  pub_vel_ = n_.advertise<geometry_msgs::Twist>(pub_vel_path, 1);
+  pub_led_ = n_.advertise<kobuki_msgs::Led>(pub_led_path, 1);
   pub_sound_ = n_.advertise<kobuki_msgs::Sound>("/mobile_base/commands/sound", 1);
+
+  state_ = n_.param("init_state", 0);
+  pressed_ = n_.param("init_pressed", false);
+  turn_direction_ = n_.param("init_direction", false);
+  linear_velocity_x = n_.param("linear_vel", 0.2);
+  angular_velocity_z = n_.param("angular_vel", 0.4);
 }
 
 void
@@ -38,6 +46,7 @@ SensorGo::step()
 
   switch (state_)
   {
+
     case GOING_FORWARD:
       cmd.linear.x = LINEAR_VELOCITY_X;
       cmd.angular.z = 0.0;
@@ -56,6 +65,7 @@ SensorGo::step()
       break;
 
     case GOING_BACK:
+
       cmd.linear.x = -LINEAR_VELOCITY_X;
       cmd.angular.z = 0.0;
 
@@ -89,6 +99,7 @@ SensorGo::step()
       break;
 
     case TURNING_LEFT:
+
       cmd.linear.x = 0.0;
       cmd.angular.z = ANGULAR_VELOCITY_Z;
       if (TOGGLE_LED)
@@ -104,6 +115,7 @@ SensorGo::step()
       break;
 
     case TURNING_RIGHT:
+
       cmd.linear.x = 0.0;
       cmd.angular.z = -ANGULAR_VELOCITY_Z;
       if (TOGGLE_LED)

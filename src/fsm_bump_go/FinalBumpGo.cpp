@@ -20,8 +20,10 @@ namespace fsm_bump_go
 {
 
 FinalBumpGo::FinalBumpGo()
+: SensorGo()
 {
-  sub_sensor_ = n_.subscribe("/mobile_base/events/bumper", 1, &FinalBumpGo::sensorCallback, this);
+  std::string sub_sensor_path =  n_.param("sub_sensor_path", std::string("/mobile_base/events/bumper"));
+  sub_sensor_ = n_.subscribe(sub_sensor_path, 1, &FinalBumpGo::sensorCallback, this);
 }
 
 void
