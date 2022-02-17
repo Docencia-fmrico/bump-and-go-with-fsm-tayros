@@ -29,18 +29,6 @@ SensorGo::SensorGo()
   pub_sound_ = n_.advertise<kobuki_msgs::Sound>("/mobile_base/commands/sound", 1);
 }
 
-int
-SensorGo::get_state()
-{
-  return state_;
-}
-
-bool
-SensorGo::get_turn_direction()
-{
-  return turn_direction_;
-}
-
 void
 SensorGo::step()
 {
@@ -52,8 +40,11 @@ SensorGo::step()
   {
     case GOING_FORWARD:
       cmd.linear.x = LINEAR_VELOCITY_X;
-      cmd.angular.z = 0;
-      led_control.value = GREEN;
+      cmd.angular.z = 0.0;
+      if (TOGGLE_LED)
+      {
+        led_control.value = GREEN;
+      }
 
       if (pressed_)
       {
@@ -66,10 +57,18 @@ SensorGo::step()
 
     case GOING_BACK:
       cmd.linear.x = -LINEAR_VELOCITY_X;
-      cmd.angular.z = 0;
-      led_control.value  = ORANGE;
-      sound_control.value = SOUND_ERROR;
-      pub_sound_.publish(sound_control);
+      cmd.angular.z = 0.0;
+
+      if (TOGGLE_LED)
+      {
+        led_control.value  = ORANGE;
+      }
+
+      if (TOGGLE_SOUND)
+      {
+        sound_control.value = SOUND_ERROR;
+        pub_sound_.publish(sound_control);
+      }
 
       if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME)
       {
@@ -90,9 +89,12 @@ SensorGo::step()
       break;
 
     case TURNING_LEFT:
-      cmd.linear.x = 0;
+      cmd.linear.x = 0.0;
       cmd.angular.z = ANGULAR_VELOCITY_Z;
-      led_control.value  = RED;
+      if (TOGGLE_LED)
+      {
+        led_control.value  = RED;
+      }
 
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
@@ -102,10 +104,13 @@ SensorGo::step()
       break;
 
     case TURNING_RIGHT:
-      cmd.linear.x = 0;
+      cmd.linear.x = 0.0;
       cmd.angular.z = -ANGULAR_VELOCITY_Z;
-      led_control.value  = RED;
-
+      if (TOGGLE_LED)
+      {
+        led_control.value  = RED;
+      }
+      
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
         state_ = GOING_FORWARD;
