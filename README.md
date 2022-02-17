@@ -15,6 +15,7 @@
 
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
+- [How to execute the programs](#How-to-execute-the-programs)
 - [Sensor_Go(base class)](#sensorgo)
 - [Final Bump Go](#finalbumpgo)
 - [Rplidar](#Rplidar)
@@ -24,6 +25,13 @@
 - [Team](#team)
 - [Licencia](#licencia)
 
+
+## How to execute the programs
+
+First connect the base and the lidar (in case that you want the lidar version) then :
+- Launch bump and go with base
+
+- Launch bump and go with lidar
 
 
 ## SensorGo 
@@ -95,13 +103,12 @@ FinalBumpGo::sensorCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 -----------------------------------------------------------------------
 
 ## Rplidar
-### How works the lidar
-
-### Implementation
 
 lidarBumpGo inherits too from the SensorGo base class. In the sensorCallback function, it calls a function that returns the nearest distance the sensor is taking.
 
 Then, if the distance is less than the value *MIN_DISTANCE_* it changes the attribute *pressed_*, before that, the program decide if turn left or turn right depending the side of the nearest distance.
+
+In the program the range is 60; (60 * 0.008) = 0.48 rad. In the tests of the real robot was the best value. 
 
 -----------------------------------------------------------------------
 Snippet(sensorCallback):
