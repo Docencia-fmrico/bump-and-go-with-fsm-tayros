@@ -31,6 +31,8 @@ public:
 
   // Functions
   void sensorCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
+  int get_bumper(){return bumper_;}
+  void set_bumper(int value){bumper_ = value;}
 
 private:
   static const int LEFT = 0;

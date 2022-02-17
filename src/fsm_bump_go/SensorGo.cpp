@@ -37,18 +37,6 @@ SensorGo::SensorGo()
   angular_velocity_z = n_.param("angular_vel", 0.4);
 }
 
-int
-SensorGo::get_state()
-{
-  return state_;
-}
-
-bool
-SensorGo::get_turn_direction()
-{
-  return turn_direction_;
-}
-
 void
 SensorGo::step()
 {
@@ -58,11 +46,14 @@ SensorGo::step()
 
   switch (state_)
   {
-    case GOING_FORWARD: 
-      
-      cmd.linear.x = linear_velocity_x;
-      cmd.angular.z = 0;
-      led_control.value = GREEN;
+
+    case GOING_FORWARD:
+      cmd.linear.x = LINEAR_VELOCITY_X;
+      cmd.angular.z = 0.0;
+      if (TOGGLE_LED)
+      {
+        led_control.value = GREEN;
+      }
 
       if (pressed_)
       {
@@ -74,11 +65,20 @@ SensorGo::step()
       break;
 
     case GOING_BACK:
-      cmd.linear.x = -linear_velocity_x;
-      cmd.angular.z = 0;
-      led_control.value  = ORANGE;
-      sound_control.value = SOUND_ERROR;
-      pub_sound_.publish(sound_control);
+
+      cmd.linear.x = -LINEAR_VELOCITY_X;
+      cmd.angular.z = 0.0;
+
+      if (TOGGLE_LED)
+      {
+        led_control.value  = ORANGE;
+      }
+
+      if (TOGGLE_SOUND)
+      {
+        sound_control.value = SOUND_ERROR;
+        pub_sound_.publish(sound_control);
+      }
 
       if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME)
       {
@@ -99,9 +99,13 @@ SensorGo::step()
       break;
 
     case TURNING_LEFT:
-      cmd.linear.x = 0;
-      cmd.angular.z = angular_velocity_z;
-      led_control.value  = RED;
+
+      cmd.linear.x = 0.0;
+      cmd.angular.z = ANGULAR_VELOCITY_Z;
+      if (TOGGLE_LED)
+      {
+        led_control.value  = RED;
+      }
 
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
@@ -111,10 +115,14 @@ SensorGo::step()
       break;
 
     case TURNING_RIGHT:
-      cmd.linear.x = 0;
-      cmd.angular.z = -angular_velocity_z;
-      led_control.value  = RED;
 
+      cmd.linear.x = 0.0;
+      cmd.angular.z = -ANGULAR_VELOCITY_Z;
+      if (TOGGLE_LED)
+      {
+        led_control.value  = RED;
+      }
+      
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
         state_ = GOING_FORWARD;
