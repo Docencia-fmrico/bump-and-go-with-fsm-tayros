@@ -98,7 +98,42 @@ In order to make our code and kobuki functionality more ditinctive, we create so
 
 ### Led Implement
 
-We decided to make a led effect in each state of the Bump & Go finite state machine. When the kobuki is going forward, the Led1 of the robot will bright green. When the kobuki goes backwards, it will turn orange, and when it is turning to one side or the other will turn red. 
+We decided to make a led effect in each state of the Bump & Go finite state machine. When the kobuki is going forward, the Led1 of the robot will bright green. When the kobuki goes backwards, it will turn orange, and when it is turning to one side or the other will turn red. In order to make this, we made a publisher for the led topic and we stablished a different color in each state.
+
+-----------------------------------------------------------------------
+Snippet(Led Implement):
+``` cpp
+SensorGo::SensorGo()
+{
+  pub_led_ = n_.advertise<kobuki_msgs::Led>("/mobile_base/commands/led1", 1);
+...
+}
+
+void
+SensorGo::step()
+{
+   kobuki_msgs::Led led_control;
+...
+switch (state_)
+  {
+    case GOING_FORWARD:
+      led_control.value = GREEN;
+      ...
+}
+```
+-----------------------------------------------------------------------
+
+Defining as constant the different colors in the SensorGo.h file:
+
+-----------------------------------------------------------------------
+Snippet(Led Implement):
+
+  static const int BLACK = 0;
+  static const int GREEN = 1;
+  static const int ORANGE = 2;
+  static const int RED = 3;
+
+-----------------------------------------------------------------------
 
 ## Tests
 
