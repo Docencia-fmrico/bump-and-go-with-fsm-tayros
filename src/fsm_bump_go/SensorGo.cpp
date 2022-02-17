@@ -35,18 +35,9 @@ SensorGo::SensorGo()
   turn_direction_ = n_.param("init_direction", false);
   linear_velocity_x = n_.param("linear_vel", 0.2);
   angular_velocity_z = n_.param("angular_vel", 0.4);
-}
-
-int
-SensorGo::get_state()
-{
-  return state_;
-}
-
-bool
-SensorGo::get_turn_direction()
-{
-  return turn_direction_;
+  toggle_led = n_.param("led_control", false);
+  toggle_sound = n_.param("sound_control", false);
+  
 }
 
 void
@@ -77,8 +68,11 @@ SensorGo::step()
       cmd.linear.x = -linear_velocity_x;
       cmd.angular.z = 0;
       led_control.value  = ORANGE;
-      sound_control.value = SOUND_ERROR;
-      pub_sound_.publish(sound_control);
+      if(toggle_sound)
+      {
+        sound_control.value = SOUND_ERROR;
+        pub_sound_.publish(sound_control);
+      }
 
       if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME)
       {
@@ -125,7 +119,10 @@ SensorGo::step()
     break;
   }
     pub_vel_.publish(cmd);
-    pub_led_.publish(led_control);
+    if(toggle_led)
+    {
+      pub_led_.publish(led_control);
+    }
 }
 
 }  // namespace fsm_bump_go

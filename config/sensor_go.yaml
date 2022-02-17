@@ -4,4 +4,6 @@ init_state: 0
 init_pressed: false
 init_direction: true
 linear_vel: 0.2
-angular_vel: 0.4
+angular_vel: 0.5
+led_control: true
+sound_control: false
