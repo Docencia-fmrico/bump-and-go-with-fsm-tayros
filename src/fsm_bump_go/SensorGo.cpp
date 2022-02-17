@@ -101,7 +101,6 @@ SensorGo::step()
 
     break; 
   }
-
     pub_vel_.publish(cmd);
     pub_led_.publish(led_control);
 }
