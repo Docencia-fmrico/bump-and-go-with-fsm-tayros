@@ -29,6 +29,18 @@ SensorGo::SensorGo()
   pub_sound_ = n_.advertise<kobuki_msgs::Sound>("/mobile_base/commands/sound", 1);
 }
 
+int
+SensorGo::get_state()
+{
+  return state_;
+}
+
+bool
+SensorGo::get_turn_direction()
+{
+  return turn_direction_;
+}
+
 void
 SensorGo::step()
 {

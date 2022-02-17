@@ -31,6 +31,8 @@ public:
 
   // Functions
   void step();
+  int get_state();
+  bool get_turn_direction();
 
   // Instance variables(used in the virtual Callback)
   bool turn_direction_;  // RIGHT OR LEFT
@@ -42,7 +44,7 @@ public:
   ros::NodeHandle n_;
 
 private:
-  static const int GOING_FORWARD   = 0;
+  static const int GOING_FORWARD = 0;
   static const int GOING_BACK = 1;
   static const int TURNING_LEFT = 2;
   static const int TURNING_RIGHT = 3;
