@@ -1,0 +1,11 @@
+<launch>
+  <include>
+    <include file="$(find robots)/launch/sim.launch" />
+  </include>
+
+  <node pkg="fsm_bump_go" type="lidarBumpgo_node" name="lidarBuumpgp"> 
+    <param name="DETECTION_DISTANCE" type="double" value="0.6" />
+    <param name="RANGE" type="int" value="60" />
+  </node>
+   
+</launch>
