@@ -35,6 +35,11 @@ SensorGo::SensorGo()
   turn_direction_ = n_.param("init_direction", false);
   linear_velocity_x = n_.param("linear_vel", 0.2);
   angular_velocity_z = n_.param("angular_vel", 0.4);
+
+  toggle_led = n_.param("led_control", false);
+  toggle_sound = n_.param("sound_control", false);
+  
+
 }
 
 void
@@ -65,16 +70,10 @@ SensorGo::step()
       break;
 
     case GOING_BACK:
-
-      cmd.linear.x = -LINEAR_VELOCITY_X;
-      cmd.angular.z = 0.0;
-
-      if (TOGGLE_LED)
-      {
-        led_control.value  = ORANGE;
-      }
-
-      if (TOGGLE_SOUND)
+      cmd.linear.x = -linear_velocity_x;
+      cmd.angular.z = 0;
+      led_control.value  = ORANGE;
+      if(toggle_sound)
       {
         sound_control.value = SOUND_ERROR;
         pub_sound_.publish(sound_control);
@@ -133,7 +132,10 @@ SensorGo::step()
     break;
   }
     pub_vel_.publish(cmd);
-    pub_led_.publish(led_control);
+    if(toggle_led)
+    {
+      pub_led_.publish(led_control);
+    }
 }
 
 }  // namespace fsm_bump_go

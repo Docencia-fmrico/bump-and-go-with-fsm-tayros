@@ -44,6 +44,9 @@ public:
   const bool TOGGLE_LED = true;
   const bool TOGGLE_SOUND = false;
 
+  bool toggle_led;
+  bool toggle_sound;
+
   ros::NodeHandle n_;
 
 private:
