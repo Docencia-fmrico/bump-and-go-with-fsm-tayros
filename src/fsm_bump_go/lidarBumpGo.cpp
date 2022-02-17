@@ -21,7 +21,9 @@ namespace fsm_bump_go
 
 lidarBumpGo::lidarBumpGo()
 {
-  sub_sensor_ = n_.subscribe("/scan_filtered", 1, &lidarBumpGo::sensorCallback, this);
+  std::string sub_sensor_topic =  n_.param("sub_sensor_path", std::string("/scan_filtered"));
+
+  sub_sensor_ = n_.subscribe(sub_sensor_topic, 1, &lidarBumpGo::sensorCallback, this);
   MIN_DISTANCE_ = n_.param("DETECTION_DISTANCE", 0.5);
   range_ = n_.param("RANGE", 60);
 }
