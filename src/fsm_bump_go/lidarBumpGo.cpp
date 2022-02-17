@@ -22,6 +22,9 @@ namespace fsm_bump_go
 lidarBumpGo::lidarBumpGo()
 {
   sub_sensor_ = n_.subscribe("/scan_filtered", 1, &lidarBumpGo::sensorCallback, this);
+  ros::param::get("/lidarBuumpgp/DETECTION_DISTANCE", MIN_DISTANCE_);
+  ros::param::get("/lidarBuumpgp/RANGE", range_);
+  
 }
 
 void
@@ -30,7 +33,7 @@ lidarBumpGo::sensorCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   int size = msg->ranges.size();
   center_ = size / 2;
   
-    float nearest_distance = 100;
+  float nearest_distance = 100;
 
   for (int i = center_ - range_ ; i <= center_ + range_ ; i++){ // Array index
     if (nearest_distance > msg->ranges[i]){

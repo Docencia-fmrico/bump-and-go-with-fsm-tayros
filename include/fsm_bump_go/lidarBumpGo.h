@@ -35,13 +35,13 @@ public:
 
 private: 
 
-  const float MIN_DISTANCE_ = 0.2;
+  float MIN_DISTANCE_;
 
 
   int nearest_position_;
 
   int center_;
-  int range_ = 70*6;
+  int range_;
 
   
 
