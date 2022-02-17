@@ -43,8 +43,7 @@ private:
   int center_;
   int range_;
 
-  
-
+  float obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg);
   ros::Subscriber sub_sensor_;
 };
 

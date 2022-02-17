@@ -22,38 +22,41 @@ namespace fsm_bump_go
 lidarBumpGo::lidarBumpGo()
 {
   sub_sensor_ = n_.subscribe("/scan_filtered", 1, &lidarBumpGo::sensorCallback, this);
-  ros::param::get("/lidarBuumpgp/DETECTION_DISTANCE", MIN_DISTANCE_);
-  ros::param::get("/lidarBuumpgp/RANGE", range_);
-  
+  MIN_DISTANCE_ = n_.param("DETECTION_DISTANCE", 0.5);
+  range_ = n_.param("RANGE", 60);
+}
+
+float
+lidarBumpGo::obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg){
+  int size = msg->ranges.size();
+  center_ = 0;
+
+  /* Left range */
+  float nearest_distance = 100;
+  for (int i = 0; i < range_; i++)
+  {
+    if (nearest_distance > msg->ranges[i]){
+      nearest_distance = msg->ranges[i];
+      nearest_position_ = 1;  /* Turn right */
+    }
+  }
+
+  /* Right range */
+  for (int i = size-1; i > (size - range_); i--)
+  {
+    if (nearest_distance > msg->ranges[i]){
+        nearest_distance = msg->ranges[i];
+        nearest_position_ = 0;  /* Turn left */
+    }
+  }
+
+  return nearest_distance;
 }
 
 void
 lidarBumpGo::sensorCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
-  int size = msg->ranges.size();
-  center_ = 0;
-  
-  float nearest_distance = 100;
-
-  for (int i = 0; i < range_; i++)
-  {
-    if (nearest_distance > msg->ranges[i]){
-      nearest_distance = msg->ranges[i];
-      nearest_position_ = 1; 
-
-               
-    }
-  }
-
-  for (int i = size-1; i > (size - range_); i--)
-  {
-    if (nearest_distance > msg->ranges[i]){
-        nearest_distance = msg->ranges[i];
-        nearest_position_ = 0; 
-
-               
-    }
-  }
+  float nearest_distance = obtainDistance(msg);
   
   if (nearest_distance <= MIN_DISTANCE_) { pressed_ = true; }
   else { pressed_ = false ; }

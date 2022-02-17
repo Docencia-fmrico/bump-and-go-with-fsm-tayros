@@ -1,11 +1,9 @@
 <launch>
-  <include>
-    <include file="$(find robots)/launch/sim.launch" />
-  </include>
+  
+  <!--<include file="$(find robots)/launch/kobuki_rplidar.launch"/> -->
 
   <node pkg="fsm_bump_go" type="lidarBumpgo_node" name="lidarBuumpgp"> 
-    <param name="DETECTION_DISTANCE" type="double" value="0.6" />
-    <param name="RANGE" type="int" value="60" />
+    <rosparam command="load" file="$(find fsm_bump_go)/config/lidarBumpGoParms.yaml"/>
   </node>
    
 </launch>
