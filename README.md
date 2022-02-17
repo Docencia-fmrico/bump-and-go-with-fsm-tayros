@@ -70,7 +70,25 @@ Snippet(use of turn_direction_):
 
 ## FinalBumpGo
 
+FinalBumpGo inherits from the SensoGo base class and implements a sensorCallback function that allows it to communicate with the kobuki bumpers to take the state and indicate it to the state machine. 
 
+If it detects that the left bumper has been activated, it will indicate a right turn and if the right or central bumper is activated, it will turn left. 
+
+-----------------------------------------------------------------------
+Snippet(sensorCallback):
+``` cpp
+void
+FinalBumpGo::sensorCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
+{
+  pressed_ = msg->state; 
+  bumper_ = msg->bumper; 
+
+  if(bumper_ == LEFT){turn_direction_ = TURN_RIGHT;}
+  
+  else{turn_direction_ = TURN_LEFT;}
+}
+```
+-----------------------------------------------------------------------
 
 ## Team
 
