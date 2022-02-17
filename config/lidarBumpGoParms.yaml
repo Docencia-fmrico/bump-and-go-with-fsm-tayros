@@ -1,0 +1,4 @@
+laser_topic: /scan_filtered
+
+DETECTION_DISTANCE: 2.0
+RANGE: 60
