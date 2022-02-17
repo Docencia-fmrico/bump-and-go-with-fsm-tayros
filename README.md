@@ -127,12 +127,12 @@ Defining as constant the different colors in the SensorGo.h file:
 
 -----------------------------------------------------------------------
 Snippet(Led Implement):
-
+``` cpp
   static const int BLACK = 0;
   static const int GREEN = 1;
   static const int ORANGE = 2;
   static const int RED = 3;
-
+```
 -----------------------------------------------------------------------
 
 ## Tests
