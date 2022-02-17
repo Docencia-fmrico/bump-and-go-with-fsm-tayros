@@ -2,7 +2,7 @@
 # fsm_bump_go
 
 <div align="center">
-<img width=400px src="" alt="explode"></a>
+<img width=400px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/readme/resources/kuboki.jpg?raw=true" alt="explode"></a>
 </div>
 
 <h3 align="center">Bump And Go </h3>
@@ -29,10 +29,21 @@
 ## How to execute the programs
 
 First connect the base and the lidar (in case that you want the lidar version) then :
-- Launch bump and go with base
+-----------------------------------------------------------------------
+Snippet(launch base):
+``` bash
+roslaunch kobuki_node minimal.launch # Driver of the kobuki
+roslaunch fsm_bump_go finalBumpgo.launch  # Bump and go
+```
+-----------------------------------------------------------------------
 
-- Launch bump and go with lidar
-
+-----------------------------------------------------------------------
+Snippet(launch lidar):
+``` bash
+roslaunch robots kobuki_rplidar.launch   # Drivers of the kuboki and rplidar
+roslaunch fsm_bump_go lidarBumpgo.launch  # Bump and go
+```
+-----------------------------------------------------------------------
 
 ## SensorGo 
 
@@ -181,10 +192,10 @@ RANGE: 60
 
 It launch the nodes, the parameters and the yamls we want to use in our program. 
 
-Include is for other launchers, in this program we don't launch the kobuki and lidar drivers 
+*include* is for other launchers, in this program we don't launch the kobuki and lidar drivers 
 because if the lidar doesn't works the kuboki works without the sensor and crashes.
 
-node id for our nodes and rosparam loads our yaml.
+*node* is for our nodes and rosparam loads our yaml.
 
 -----------------------------------------------------------------------
 Snippet(launch example):
@@ -284,7 +295,7 @@ TEST(BumpGoTest, initial_tests)
 
 ## Team
 
-<img width=600px src="" alt="explode"></a>
+<img width=600px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/readme/resources/group.jpg?raw=true" alt="explode"></a>
 <h5 align="center">TayRos 2022</h5
   
 - [Saul Navajas](https://github.com/SaulN99)
