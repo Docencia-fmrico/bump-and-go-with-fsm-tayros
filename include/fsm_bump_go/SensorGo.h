@@ -18,6 +18,7 @@
 #include "ros/ros.h"
 #include "geometry_msgs/Twist.h"
 #include "kobuki_msgs/Led.h"
+#include "kobuki_msgs/Sound.h"
 
 namespace fsm_bump_go
 {
@@ -25,19 +26,20 @@ namespace fsm_bump_go
 class SensorGo
 {
 public:
-
   // Constructor
   SensorGo();
 
-  // Functions 
+  // Functions
   void step();
+  int get_state();
+  bool get_turn_direction();
 
   // Instance variables(used in the virtual Callback)
-  bool turn_direction_; // RIGHT OR LEFT
+  bool turn_direction_;  // RIGHT OR LEFT
   bool pressed_;
 
-  static const bool TURN_LEFT = true;  
-  static const bool TURN_RIGHT = false; 
+  static const bool TURN_LEFT = true;
+  static const bool TURN_RIGHT = false;
 
   ros::NodeHandle n_;
 
@@ -52,12 +54,15 @@ private:
   static const int GREEN = 1;
   static const int ORANGE = 2;
   static const int RED = 3;
-	
+
+  static const int SOUND_ERROR = 4;
+
   static constexpr double TURNING_TIME = 5.0;
   static constexpr double BACKING_TIME = 3.0;
 
   ros::Publisher pub_vel_;
   ros::Publisher pub_led_;
+  ros::Publisher pub_sound_;
 
   int state_;
   double linear_velocity_x; 
@@ -65,7 +70,6 @@ private:
 
   ros::Time press_ts_;
   ros::Time turn_ts_;
-
 };
 
 }  // namespace fsm_bump_go

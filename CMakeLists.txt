@@ -51,3 +51,9 @@ roslint_cpp(
  include/fsm_bump_go/FinalBumpGo.h
  include/fsm_bump_go/lidarBumpGo.h
 )
+
+catkin_add_gtest(BumpGoTest tests/BumpGoTest.cpp)
+add_dependencies(BumpGoTest ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+if(TARGET BumpGoTest)
+   target_link_libraries(BumpGoTest ${catkin_LIBRARIES} ${PROJECT_NAME})
+ endif()

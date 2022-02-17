@@ -29,21 +29,20 @@ FinalBumpGo::FinalBumpGo()
 void
 FinalBumpGo::sensorCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
-  pressed_ = msg->state; 
-  bumper_ = msg->bumper; 
+  pressed_ = msg->state;
+  bumper_ = msg->bumper;
 
-  if(bumper_ == LEFT)
+  if (bumper_ == LEFT)
   {
-    turn_direction_ = TURN_RIGHT; 
+    turn_direction_ = TURN_RIGHT;
   }
 
-  // If bumper detects left or center, the robot turn left 
+  // If bumper detects left or center, the robot turn left
   else
   {
-    turn_direction_ = TURN_LEFT; 
+    turn_direction_ = TURN_LEFT;
   }
-
 }
 
 }  // namespace fsm_bump_go
-  
+

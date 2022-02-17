@@ -50,6 +50,7 @@ private:
 
   ros::Subscriber sub_bumber_;
   ros::Publisher pub_vel_;
+  ros::Publisher pub_sound_;
 };
 
 }  // namespace fsm_bump_go
