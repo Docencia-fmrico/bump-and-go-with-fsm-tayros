@@ -17,7 +17,7 @@
 - [Table of Contents](#table-of-contents)
 - [Sensor_Go(base class)](#sensorgo)
 - [Final Bump Go](#finalbumpgo)
-- [Implements: Leds and Sound effect](#implements)
+- [Implements](#implements)
 - [Tests](#tests)
 - [Team](#team)
 - [Licencia](#licencia)
@@ -92,7 +92,7 @@ FinalBumpGo::sensorCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 ```
 -----------------------------------------------------------------------
 
-## Implements: Leds and Sound effect
+## Implements
 
 In order to make our code and kobuki functionality more ditinctive, we create some effects when the kobuki is moving.
 
