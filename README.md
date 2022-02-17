@@ -17,6 +17,8 @@
 - [Table of Contents](#table-of-contents)
 - [Sensor_Go(base class)](#sensorgo)
 - [Final Bump Go](#finalbumpgo)
+- [Implements: Leds and Sound effect](#implements)
+- [Tests](#tests)
 - [Team](#team)
 - [Licencia](#licencia)
 
@@ -86,6 +88,38 @@ FinalBumpGo::sensorCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
   if(bumper_ == LEFT){turn_direction_ = TURN_RIGHT;}
   
   else{turn_direction_ = TURN_LEFT;}
+}
+```
+-----------------------------------------------------------------------
+
+## Implements: Leds and Sound effect
+
+In order to make our code and kobuki functionality more ditinctive, we create some effects when the kobuki is moving.
+
+### Led Implement
+
+We decided to make a led effect in each state of the Bump & Go finite state machine. When the kobuki is going forward, the Led1 of the robot will bright green. When the kobuki goes backwards, it will turn orange, and when it is turning to one side or the other will turn red. 
+
+## Tests
+
+Some tests had been created in order to check if the different characteristics of the Bump & Go are correct.
+
+### Initial Test
+
+Once the Object from SensorGo class is created, the initial tests check if:
+- Initial status of the robot is going forward.
+- Bumper has not been pressed yet
+- The turn direction variable is stablished to turn left.
+
+-----------------------------------------------------------------------
+Snippet(Initial Tests):
+``` cpp
+TEST(BumpGoTest, initial_tests)
+{
+    fsm_bump_go::SensorGo bump_test;
+    EXPECT_EQ(bump_test.get_state(), 0);
+    EXPECT_EQ(bump_test.pressed_, false);
+    EXPECT_EQ(bump_test.turn_direction_, bump_test.get_turn_direction());
 }
 ```
 -----------------------------------------------------------------------
