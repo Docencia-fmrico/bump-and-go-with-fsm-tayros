@@ -43,7 +43,7 @@ public:
 
 private:
 
-  static const int GOING_FORWARD   = 0;
+  static const int GOING_FORWARD = 0;
   static const int GOING_BACK = 1;
   static const int TURNING_LEFT = 2;
   static const int TURNING_RIGHT = 3;
@@ -56,13 +56,12 @@ private:
   static constexpr double TURNING_TIME = 5.0;
   static constexpr double BACKING_TIME = 3.0;
 
-  static constexpr double LINEAR_VELOCITY_X = 0.2; 
-  static constexpr double ANGULAR_VELOCITY_Z = 0.4; 
-
   ros::Publisher pub_vel_;
   ros::Publisher pub_led_;
 
   int state_;
+  double linear_velocity_x; 
+  double angular_velocity_z; 
 
   ros::Time press_ts_;
   ros::Time turn_ts_;
