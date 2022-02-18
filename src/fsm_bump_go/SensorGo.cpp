@@ -69,7 +69,7 @@ SensorGo::step()
       cmd.linear.x = -linear_velocity_x;
       cmd.angular.z = 0;
       led_control.value  = ORANGE;
-      if(toggle_sound)
+      if (toggle_sound)
       {
         sound_control.value = SOUND_ERROR;
         pub_sound_.publish(sound_control);
@@ -117,7 +117,7 @@ SensorGo::step()
       {
         led_control.value  = RED;
       }
-      
+
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
         state_ = GOING_FORWARD;
@@ -128,7 +128,7 @@ SensorGo::step()
     break;
   }
     pub_vel_.publish(cmd);
-    if(toggle_led)
+    if (toggle_led)
     {
       pub_led_.publish(led_control);
     }

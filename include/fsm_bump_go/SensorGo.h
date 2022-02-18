@@ -33,8 +33,14 @@ public:
   void step();
 
   // Tests getters
-  int get_state(){return state_;}
-  bool get_turn_direction(){return turn_direction_;}
+  int get_state()
+  {
+    return state_;
+  }
+  bool get_turn_direction()
+  {
+    return turn_direction_;
+  }
 
 
   // Instance variables(used in the virtual Callback)
@@ -43,7 +49,7 @@ public:
 
   static const bool TURN_LEFT = true;
   static const bool TURN_RIGHT = false;
-  
+
   const bool TOGGLE_LED = true;
   const bool TOGGLE_SOUND = false;
 
