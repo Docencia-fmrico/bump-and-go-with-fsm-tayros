@@ -78,7 +78,7 @@ Snippet(use of pressed_):
 -----------------------------------------------------------------------
 Snippet(use of turn_direction_):
 ``` cpp
-  if(turn_direction_ == TURN_LEFT)
+  if (turn_direction_ == TURN_LEFT)
   {
     state_ = TURNING_LEFT;
     ROS_INFO("GOING_BACK -> TURNING_LEFT");
@@ -103,12 +103,19 @@ Snippet(sensorCallback):
 void
 FinalBumpGo::sensorCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
-  pressed_ = msg->state; 
-  bumper_ = msg->bumper; 
+  pressed_ = msg->state;
+  bumper_ = msg->bumper;
 
-  if(bumper_ == LEFT){turn_direction_ = TURN_RIGHT;}
-  
-  else{turn_direction_ = TURN_LEFT;}
+  if (bumper_ == LEFT)
+  {
+    turn_direction_ = TURN_RIGHT;
+  }
+
+  // If bumper detects left or center, the robot turn left
+  else
+  {
+    turn_direction_ = TURN_LEFT;
+  }
 }
 ```
 -----------------------------------------------------------------------
@@ -129,13 +136,25 @@ lidarBumpGo::sensorCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
   float nearest_distance = obtainDistance(msg);
 
-  if (nearest_distance <= MIN_DISTANCE_) { pressed_ = true; }
-  else { pressed_ = false ; }
+  if (nearest_distance <= MIN_DISTANCE_)
+  {
+    pressed_ = true;
+  }
+  else
+  {
+    pressed_ = false;
+  }
 
+  if (nearest_position_ == LEFT)
+  {
+    turn_direction_ = TURN_RIGHT;
+  }
 
-   if(nearest_position_ <= 1) { turn_direction_ = TURN_RIGHT; }
-
-   if (nearest_position_ > 0) { turn_direction_ = TURN_LEFT; }
+  // If bumper detects left or center, the robot turn left
+  if (nearest_position_ == RIGHT)
+  {
+    turn_direction_ = TURN_LEFT;
+  }
 }
 ```
 -----------------------------------------------------------------------
@@ -203,7 +222,7 @@ Snippet(launch example):
 <launch>
   <!--<include file="$(find robots)/launch/kobuki_rplidar.launch"/> -->
   
-  <node pkg="fsm_bump_go" type="lidarBumpgo_node" name="lidarBuumpgp"> 
+  <node pkg="fsm_bump_go" type="lidarBumpgo_node" name="lidarBumpgo"> 
     <rosparam command="load" file="$(find fsm_bump_go)/config/lidarBumpGoParms.yaml"/>
   </node>
 </launch>
@@ -301,6 +320,8 @@ Once the Object from SensorGo class is created, the initial tests check if:
 - Bumper has not been pressed yet
 - The turn direction variable is stablished to turn left.
 
+Once the Object from SensorGo class is created, the bumper tests check if:
+- the object atribute is modified to the bumper state set with the set_bumper method
 -----------------------------------------------------------------------
 Snippet(Initial Tests):
 ``` cpp
@@ -310,6 +331,20 @@ TEST(BumpGoTest, initial_tests)
     EXPECT_EQ(bump_test.get_state(), 0);
     EXPECT_EQ(bump_test.pressed_, false);
     EXPECT_EQ(bump_test.turn_direction_, bump_test.get_turn_direction());
+}
+
+TEST(BumpGoTest, bump_tests)
+{
+    fsm_bump_go::FinalBumpGo bump_test;
+
+    bump_test.set_bumper(0);
+    EXPECT_EQ(bump_test.get_bumper(), 0);
+
+    bump_test.set_bumper(1);
+    EXPECT_EQ(bump_test.get_bumper(), 1);
+
+    bump_test.set_bumper(2);
+    EXPECT_EQ(bump_test.get_bumper(), 2);
 }
 ```
 -----------------------------------------------------------------------
