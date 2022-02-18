@@ -38,8 +38,6 @@ SensorGo::SensorGo()
 
   toggle_led = n_.param("led_control", false);
   toggle_sound = n_.param("sound_control", false);
-  
-
 }
 
 void
@@ -53,7 +51,7 @@ SensorGo::step()
   {
 
     case GOING_FORWARD:
-      cmd.linear.x = LINEAR_VELOCITY_X;
+      cmd.linear.x = linear_velocity_x;
       cmd.angular.z = 0.0;
       if (TOGGLE_LED)
       {
@@ -100,7 +98,7 @@ SensorGo::step()
     case TURNING_LEFT:
 
       cmd.linear.x = 0.0;
-      cmd.angular.z = ANGULAR_VELOCITY_Z;
+      cmd.angular.z = angular_velocity_z;
       if (TOGGLE_LED)
       {
         led_control.value  = RED;
@@ -116,7 +114,7 @@ SensorGo::step()
     case TURNING_RIGHT:
 
       cmd.linear.x = 0.0;
-      cmd.angular.z = -ANGULAR_VELOCITY_Z;
+      cmd.angular.z = -angular_velocity_z;
       if (TOGGLE_LED)
       {
         led_control.value  = RED;
