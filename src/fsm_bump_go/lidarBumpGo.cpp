@@ -64,13 +64,13 @@ lidarBumpGo::sensorCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
   else { pressed_ = false ; }
   
 
-  if(nearest_position_ <= 1)
+  if(nearest_position_ == 1)
   {
     turn_direction_ = TURN_RIGHT; 
   }
 
   // If bumper detects left or center, the robot turn left 
-  if (nearest_position_ > 0)
+  if (nearest_position_ == 0)
   {
     turn_direction_ = TURN_LEFT; 
   }
