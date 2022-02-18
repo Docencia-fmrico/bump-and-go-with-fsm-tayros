@@ -15,6 +15,7 @@
 #include "fsm_bump_go/FinalBumpGo.h"
 #include "kobuki_msgs/BumperEvent.h"
 #include "ros/ros.h"
+#include <string>
 
 namespace fsm_bump_go
 {
