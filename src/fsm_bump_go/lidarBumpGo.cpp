@@ -15,6 +15,7 @@
 #include "fsm_bump_go/lidarBumpGo.h"
 #include "sensor_msgs/LaserScan.h"
 #include "ros/ros.h"
+#include <string>
 
 namespace fsm_bump_go
 {
@@ -29,7 +30,8 @@ lidarBumpGo::lidarBumpGo()
 }
 
 float
-lidarBumpGo::obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg){
+lidarBumpGo::obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg)
+{
   int size = msg->ranges.size();
   center_ = 0;
 
@@ -37,7 +39,8 @@ lidarBumpGo::obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg){
   float nearest_distance = 100;
   for (int i = 0; i < range_; i++)
   {
-    if (nearest_distance > msg->ranges[i]){
+    if (nearest_distance > msg->ranges[i])
+    {
       nearest_distance = msg->ranges[i];
       nearest_position_ = 1;  /* Turn right */
     }
@@ -46,7 +49,8 @@ lidarBumpGo::obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg){
   /* Right range */
   for (int i = size-1; i > (size - range_); i--)
   {
-    if (nearest_distance > msg->ranges[i]){
+    if (nearest_distance > msg->ranges[i])
+    {
         nearest_distance = msg->ranges[i];
         nearest_position_ = 0;  /* Turn left */
     }
@@ -59,22 +63,26 @@ void
 lidarBumpGo::sensorCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
   float nearest_distance = obtainDistance(msg);
-  
-  if (nearest_distance <= MIN_DISTANCE_) { pressed_ = true; }
-  else { pressed_ = false ; }
-  
 
-  if(nearest_position_ == 1)
+  if (nearest_distance <= MIN_DISTANCE_)
   {
-    turn_direction_ = TURN_RIGHT; 
+    pressed_ = true;
+  }
+  else
+  {
+    pressed_ = false;
   }
 
-  // If bumper detects left or center, the robot turn left 
+  if (nearest_position_ == 1)
+  {
+    turn_direction_ = TURN_RIGHT;
+  }
+
+  // If bumper detects left or center, the robot turn left
   if (nearest_position_ == 0)
   {
-    turn_direction_ = TURN_LEFT; 
+    turn_direction_ = TURN_LEFT;
   }
-
 }
 
 }  // namespace fsm_bump_go

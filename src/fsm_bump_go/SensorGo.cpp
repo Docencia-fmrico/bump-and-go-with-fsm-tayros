@@ -15,6 +15,7 @@
 #include "fsm_bump_go/SensorGo.h"
 #include "geometry_msgs/Twist.h"
 #include "ros/ros.h"
+#include <string>
 
 namespace fsm_bump_go
 {
@@ -22,7 +23,7 @@ namespace fsm_bump_go
 SensorGo::SensorGo()
 :n_("~")
 {
-  // Roslaunch params 
+  // Roslaunch params
   std::string pub_vel_path =  n_.param("pub_vel_path", std::string("/mobile_base/commands/velocity"));
   std::string pub_led_path =  n_.param("pub_led_path", std::string("/mobile_base/commands/led1"));
 
@@ -51,14 +52,11 @@ SensorGo::step()
 
   switch (state_)
   {
-
     case GOING_FORWARD:
-      cmd.linear.x = LINEAR_VELOCITY_X;
-      cmd.angular.z = 0.0;
-      if (TOGGLE_LED)
-      {
-        led_control.value = GREEN;
-      }
+
+      cmd.linear.x = linear_velocity_x;
+      cmd.angular.z = 0;
+      led_control.value = GREEN;
 
       if (pressed_)
       {
@@ -100,7 +98,7 @@ SensorGo::step()
     case TURNING_LEFT:
 
       cmd.linear.x = 0.0;
-      cmd.angular.z = ANGULAR_VELOCITY_Z;
+      cmd.angular.z = angular_velocity_z;
       if (TOGGLE_LED)
       {
         led_control.value  = RED;
@@ -116,7 +114,7 @@ SensorGo::step()
     case TURNING_RIGHT:
 
       cmd.linear.x = 0.0;
-      cmd.angular.z = -ANGULAR_VELOCITY_Z;
+      cmd.angular.z = -angular_velocity_z;
       if (TOGGLE_LED)
       {
         led_control.value  = RED;

@@ -31,8 +31,11 @@ public:
 
   // Functions
   void step();
+
+  // Tests getters
   int get_state(){return state_;}
   bool get_turn_direction(){return turn_direction_;}
+
 
   // Instance variables(used in the virtual Callback)
   bool turn_direction_;  // RIGHT OR LEFT
@@ -50,7 +53,6 @@ public:
   ros::NodeHandle n_;
 
 private:
-
   static const int GOING_FORWARD = 0;
   static const int GOING_BACK = 1;
   static const int TURNING_LEFT = 2;
@@ -71,8 +73,8 @@ private:
   ros::Publisher pub_sound_;
 
   int state_;
-  double linear_velocity_x; 
-  double angular_velocity_z; 
+  double linear_velocity_x;
+  double angular_velocity_z;
 
   ros::Time press_ts_;
   ros::Time turn_ts_;

@@ -26,15 +26,13 @@ namespace fsm_bump_go
 class lidarBumpGo : public SensorGo
 {
 public:
-
   // Constructor
   lidarBumpGo();
 
-  // Functions 
-   void sensorCallback(const sensor_msgs::LaserScan::ConstPtr& msg);	
+  // Functions
+  void sensorCallback(const sensor_msgs::LaserScan::ConstPtr& msg);
 
-private: 
-
+private:
   float MIN_DISTANCE_;
 
 
