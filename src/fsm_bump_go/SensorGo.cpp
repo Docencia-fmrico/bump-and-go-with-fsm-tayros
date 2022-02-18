@@ -39,8 +39,6 @@ SensorGo::SensorGo()
 
   toggle_led = n_.param("led_control", false);
   toggle_sound = n_.param("sound_control", false);
-  
-
 }
 
 void
