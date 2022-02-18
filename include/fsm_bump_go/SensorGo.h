@@ -33,8 +33,9 @@ public:
   void step();
 
   // Tests getters
-  int get_state();
-  bool get_turn_direction();
+  int get_state(){return state_;}
+  bool get_turn_direction(){return turn_direction_;}
+
 
   // Instance variables(used in the virtual Callback)
   bool turn_direction_;  // RIGHT OR LEFT
@@ -42,6 +43,12 @@ public:
 
   static const bool TURN_LEFT = true;
   static const bool TURN_RIGHT = false;
+  
+  const bool TOGGLE_LED = true;
+  const bool TOGGLE_SOUND = false;
+
+  bool toggle_led;
+  bool toggle_sound;
 
   ros::NodeHandle n_;
 
