@@ -2,7 +2,7 @@
 # fsm_bump_go
 
 <div align="center">
-<img width=400px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/readme/resources/kuboki.jpg?raw=true" alt="explode"></a>
+<img width=400px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/main/resources/kuboki.jpg?raw=true" alt="explode"></a>
 </div>
 
 <h3 align="center">Bump And Go </h3>
@@ -27,6 +27,10 @@
 
 
 ## How to execute the programs
+
+<div align="center">
+<img width=600px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/main/resources/FibalBumpGo_launch.gif?raw=true" alt="explode"></a>
+</div>
 
 First connect the base and the lidar (in case that you want the lidar version) then :
 -----------------------------------------------------------------------
@@ -90,6 +94,8 @@ Snippet(use of turn_direction_):
    }
 ```
 -----------------------------------------------------------------------
+
+[Video funcionamiento]()
 
 ## FinalBumpGo
 
@@ -192,6 +198,8 @@ lidarBumpGo::obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg)
   return nearest_distance;
 ```
 -----------------------------------------------------------------------
+
+[Funcionamiento](https://urjc-my.sharepoint.com/:v:/g/personal/a_madinabeitia_2020_alumnos_urjc_es/EVJ-py7o05lFue8xN7RCl_sBfrTUU4eoEiLc4CIp1Q89Qw?e=bLQ59O)
 
 ## Parameters
 We used .yaml and .launch files:
@@ -356,7 +364,7 @@ TEST(BumpGoTest, bump_tests)
 
 ## Team
 <div align="center">
-<img width=600px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/readme/resources/group.jpg?raw=true"  alt="explode"></a>
+<img width=600px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/main/resources/grupo.jpg?raw=true"  alt="explode"></a>
 </div>
 <h5 align="center">TayRos 2022</h5
   
