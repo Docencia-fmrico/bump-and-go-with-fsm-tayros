@@ -317,8 +317,9 @@ TEST(BumpGoTest, initial_tests)
 ## 
 
 ## Team
-
-<img width=600px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/readme/resources/group.jpg?raw=true" alt="explode"></a>
+<div align="center">
+<img width=600px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/readme/resources/group.jpg?raw=true"  alt="explode"></a>
+</div>
 <h5 align="center">TayRos 2022</h5
   
 - [Saul Navajas](https://github.com/SaulN99)
