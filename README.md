@@ -165,14 +165,16 @@ value (center too) and turns the same range on the opposite side.
 -----------------------------------------------------------------------
 Snippet(obtainDistance):
 ``` cpp
-lidarBumpGo::obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg){
+lidarBumpGo::obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg)
+{
   int size = msg->ranges.size();
   center_ = 0;
 
   float nearest_distance = 100;
   for (int i = 0; i < range_; i++)
   {
-    if (nearest_distance > msg->ranges[i]){
+    if (nearest_distance > msg->ranges[i])
+    {
       nearest_distance = msg->ranges[i];
       nearest_position_ = 1;  /* Turn right */
     }
@@ -180,7 +182,8 @@ lidarBumpGo::obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg){
 
   for (int i = size-1; i > (size - range_); i--)
   {
-    if (nearest_distance > msg->ranges[i]){
+    if (nearest_distance > msg->ranges[i])
+    {
         nearest_distance = msg->ranges[i];
         nearest_position_ = 0;  /* Turn left */
     }
