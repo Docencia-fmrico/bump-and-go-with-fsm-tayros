@@ -2,7 +2,7 @@
 # fsm_bump_go
 
 <div align="center">
-<img width=400px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/readme/resources/kuboki.jpg?raw=true" alt="explode"></a>
+<img width=400px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/main/resources/kuboki.jpg" alt="explode"></a>
 </div>
 
 <h3 align="center">Bump And Go </h3>
@@ -318,7 +318,7 @@ TEST(BumpGoTest, initial_tests)
 
 ## Team
 <div align="center">
-<img width=600px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/readme/resources/group.jpg?raw=true"  alt="explode"></a>
+<img width=600px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/main/resources/grupo.jpg"  alt="explode"></a>
 </div>
 <h5 align="center">TayRos 2022</h5
   
