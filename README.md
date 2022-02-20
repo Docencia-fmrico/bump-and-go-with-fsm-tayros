@@ -2,7 +2,7 @@
 # fsm_bump_go
 
 <div align="center">
-<img width=400px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/main/resources/kuboki.jpg" alt="explode"></a>
+<img width=400px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/main/resources/kuboki.jpg?raw=true" alt="explode"></a>
 </div>
 
 <h3 align="center">Bump And Go </h3>
@@ -27,6 +27,10 @@
 
 
 ## How to execute the programs
+
+<div align="center">
+<img width=600px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/main/resources/FibalBumpGo_launch.gif?raw=true" alt="explode"></a>
+</div>
 
 First connect the base and the lidar (in case that you want the lidar version) then :
 -----------------------------------------------------------------------
@@ -78,7 +82,7 @@ Snippet(use of pressed_):
 -----------------------------------------------------------------------
 Snippet(use of turn_direction_):
 ``` cpp
-  if(turn_direction_ == TURN_LEFT)
+  if (turn_direction_ == TURN_LEFT)
   {
     state_ = TURNING_LEFT;
     ROS_INFO("GOING_BACK -> TURNING_LEFT");
@@ -90,6 +94,8 @@ Snippet(use of turn_direction_):
    }
 ```
 -----------------------------------------------------------------------
+
+[Video funcionamiento](https://urjc-my.sharepoint.com/:v:/g/personal/a_madinabeitia_2020_alumnos_urjc_es/Ea8fbogBYwhGgHJa60UXD1cBW3Il339-MYxxCxrKd0Y-9Q?e=sVn435)
 
 ## FinalBumpGo
 
@@ -103,12 +109,19 @@ Snippet(sensorCallback):
 void
 FinalBumpGo::sensorCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
-  pressed_ = msg->state; 
-  bumper_ = msg->bumper; 
+  pressed_ = msg->state;
+  bumper_ = msg->bumper;
 
-  if(bumper_ == LEFT){turn_direction_ = TURN_RIGHT;}
-  
-  else{turn_direction_ = TURN_LEFT;}
+  if (bumper_ == LEFT)
+  {
+    turn_direction_ = TURN_RIGHT;
+  }
+
+  // If bumper detects left or center, the robot turn left
+  else
+  {
+    turn_direction_ = TURN_LEFT;
+  }
 }
 ```
 -----------------------------------------------------------------------
@@ -129,13 +142,25 @@ lidarBumpGo::sensorCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
 {
   float nearest_distance = obtainDistance(msg);
 
-  if (nearest_distance <= MIN_DISTANCE_) { pressed_ = true; }
-  else { pressed_ = false ; }
+  if (nearest_distance <= MIN_DISTANCE_)
+  {
+    pressed_ = true;
+  }
+  else
+  {
+    pressed_ = false;
+  }
 
+  if (nearest_position_ == LEFT)
+  {
+    turn_direction_ = TURN_RIGHT;
+  }
 
-   if(nearest_position_ <= 1) { turn_direction_ = TURN_RIGHT; }
-
-   if (nearest_position_ > 0) { turn_direction_ = TURN_LEFT; }
+  // If bumper detects left or center, the robot turn left
+  if (nearest_position_ == RIGHT)
+  {
+    turn_direction_ = TURN_LEFT;
+  }
 }
 ```
 -----------------------------------------------------------------------
@@ -146,14 +171,16 @@ value (center too) and turns the same range on the opposite side.
 -----------------------------------------------------------------------
 Snippet(obtainDistance):
 ``` cpp
-lidarBumpGo::obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg){
+lidarBumpGo::obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg)
+{
   int size = msg->ranges.size();
   center_ = 0;
 
   float nearest_distance = 100;
   for (int i = 0; i < range_; i++)
   {
-    if (nearest_distance > msg->ranges[i]){
+    if (nearest_distance > msg->ranges[i])
+    {
       nearest_distance = msg->ranges[i];
       nearest_position_ = 1;  /* Turn right */
     }
@@ -161,7 +188,8 @@ lidarBumpGo::obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg){
 
   for (int i = size-1; i > (size - range_); i--)
   {
-    if (nearest_distance > msg->ranges[i]){
+    if (nearest_distance > msg->ranges[i])
+    {
         nearest_distance = msg->ranges[i];
         nearest_position_ = 0;  /* Turn left */
     }
@@ -170,6 +198,8 @@ lidarBumpGo::obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg){
   return nearest_distance;
 ```
 -----------------------------------------------------------------------
+
+[Funcionamiento](https://urjc-my.sharepoint.com/:v:/g/personal/a_madinabeitia_2020_alumnos_urjc_es/EVJ-py7o05lFue8xN7RCl_sBfrTUU4eoEiLc4CIp1Q89Qw?e=f0PQHP)
 
 ## Parameters
 We used .yaml and .launch files:
@@ -203,7 +233,7 @@ Snippet(launch example):
 <launch>
   <!--<include file="$(find robots)/launch/kobuki_rplidar.launch"/> -->
   
-  <node pkg="fsm_bump_go" type="lidarBumpgo_node" name="lidarBuumpgp"> 
+  <node pkg="fsm_bump_go" type="lidarBumpgo_node" name="lidarBumpgo"> 
     <rosparam command="load" file="$(find fsm_bump_go)/config/lidarBumpGoParms.yaml"/>
   </node>
 </launch>
@@ -301,6 +331,8 @@ Once the Object from SensorGo class is created, the initial tests check if:
 - Bumper has not been pressed yet
 - The turn direction variable is stablished to turn left.
 
+Once the Object from SensorGo class is created, the bumper tests check if:
+- the object atribute is modified to the bumper state set with the set_bumper method
 -----------------------------------------------------------------------
 Snippet(Initial Tests):
 ``` cpp
@@ -311,6 +343,20 @@ TEST(BumpGoTest, initial_tests)
     EXPECT_EQ(bump_test.pressed_, false);
     EXPECT_EQ(bump_test.turn_direction_, bump_test.get_turn_direction());
 }
+
+TEST(BumpGoTest, bump_tests)
+{
+    fsm_bump_go::FinalBumpGo bump_test;
+
+    bump_test.set_bumper(0);
+    EXPECT_EQ(bump_test.get_bumper(), 0);
+
+    bump_test.set_bumper(1);
+    EXPECT_EQ(bump_test.get_bumper(), 1);
+
+    bump_test.set_bumper(2);
+    EXPECT_EQ(bump_test.get_bumper(), 2);
+}
 ```
 -----------------------------------------------------------------------
 
@@ -318,7 +364,7 @@ TEST(BumpGoTest, initial_tests)
 
 ## Team
 <div align="center">
-<img width=600px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/main/resources/grupo.jpg"  alt="explode"></a>
+<img width=600px src="https://github.com/Docencia-fmrico/bump-and-go-with-fsm-tayros/blob/main/resources/grupo.jpg?raw=true"  alt="explode"></a>
 </div>
 <h5 align="center">TayRos 2022</h5
   
