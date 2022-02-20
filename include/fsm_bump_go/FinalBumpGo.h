@@ -1,4 +1,4 @@
-// Copyright 2022 Intelligent Robotics Lab
+// Copyright 2022 TayRos
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,47 +12,44 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FSM_BUMP_GO_BUMPGO_H
-#define FSM_BUMP_GO_BUMPGO_H
+#ifndef FSM_BUMP_GO_FINALBUMPGO_H
+#define FSM_BUMP_GO_FINALBUMPGO_H
 
 #include "ros/ros.h"
-
-#include "kobuki_msgs/BumperEvent.h"
 #include "geometry_msgs/Twist.h"
+#include "kobuki_msgs/BumperEvent.h"
+#include "fsm_bump_go/SensorGo.h"
 
 namespace fsm_bump_go
 {
 
-class BumpGo
+class FinalBumpGo : public SensorGo
 {
 public:
-  BumpGo();
+  // Constructor
+  FinalBumpGo();
 
-  void bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
-  void step();
+  // Functions
+  void sensorCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg);
+  int get_bumper()
+  {
+    return bumper_;
+  }
+  void set_bumper(int value)
+  {
+    bumper_ = value;
+  }
 
 private:
-  ros::NodeHandle n_;
+  static const int LEFT = 0;
+  static const int CENTER = 1;
+  static const int RIGHT = 2;
 
-  static const int GOING_FORWARD   = 0;
-  static const int GOING_BACK = 1;
-  static const int TURNING = 2;
+  int bumper_;
 
-  static constexpr double TURNING_TIME = 5.0;
-  static constexpr double BACKING_TIME = 3.0;
-
-  int state_;
-
-  bool pressed_;
-
-  ros::Time press_ts_;
-  ros::Time turn_ts_;
-
-  ros::Subscriber sub_bumber_;
-  ros::Publisher pub_vel_;
-  ros::Publisher pub_sound_;
+  ros::Subscriber sub_sensor_;
 };
 
 }  // namespace fsm_bump_go
 
-#endif  // FSM_BUMP_GO_BUMPGO_H
+#endif  // FSM_BUMP_GO_FINALBUMPGO_H

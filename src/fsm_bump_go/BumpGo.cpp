@@ -13,10 +13,9 @@
 // limitations under the License.
 
 #include "fsm_bump_go/BumpGo.h"
-
 #include "kobuki_msgs/BumperEvent.h"
 #include "geometry_msgs/Twist.h"
-
+#include "kobuki_msgs/Sound.h"
 #include "ros/ros.h"
 
 namespace fsm_bump_go
@@ -26,29 +25,32 @@ BumpGo::BumpGo()
 : state_(GOING_FORWARD),
   pressed_(false)
 {
-  // sub_bumber_ = n_.subscribe(...);
-  // pub_vel_ = n_.advertise<...>(...)
+  sub_bumber_ = n_.subscribe("/mobile_base/events/bumper", 1, &BumpGo::bumperCallback, this);
+  pub_vel_ = n_.advertise<geometry_msgs::Twist>("/mobile_base/commands/velocity", 1);
+  pub_sound_ = n_.advertise<kobuki_msgs::Sound>("/mobile_base/commands/sound", 1);
 }
 
 void
 BumpGo::bumperCallback(const kobuki_msgs::BumperEvent::ConstPtr& msg)
 {
-  // pressed_ = (...);
-  //  ...
+  ROS_INFO("State: [%d]", msg->state);
+  pressed_ = msg->state;
 }
 
 void
 BumpGo::step()
 {
   geometry_msgs::Twist cmd;
+  kobuki_msgs::Sound sound_control;
 
   switch (state_)
   {
     case GOING_FORWARD:
-      // cmd.linear.x = ...;
-      // cmd.angular.z = ...;
 
-      if (pressed_)ç
+      cmd.linear.x = 0.2;
+      cmd.angular.z = 0;
+
+      if (pressed_)
       {
         press_ts_ = ros::Time::now();
         state_ = GOING_BACK;
@@ -56,9 +58,11 @@ BumpGo::step()
       }
 
       break;
+
     case GOING_BACK:
-      // cmd.linear.x = ...;
-      // cmd.angular.z = ...;
+      pub_sound_.publish(sound_control);
+      cmd.linear.x = -0.2;
+      cmd.angular.z = 0;
 
       if ((ros::Time::now() - press_ts_).toSec() > BACKING_TIME )
       {
@@ -68,9 +72,10 @@ BumpGo::step()
       }
 
       break;
+
     case TURNING:
-      // cmd.linear.x = ...;
-      // cmd.angular.z = ...;
+      cmd.linear.x = 0;
+      cmd.angular.z = 0.4;
 
       if ((ros::Time::now()-turn_ts_).toSec() > TURNING_TIME )
       {
@@ -80,7 +85,7 @@ BumpGo::step()
       break;
     }
 
-    // pub_vel_.publish(...);
+    pub_vel_.publish(cmd);
 }
 
 }  // namespace fsm_bump_go

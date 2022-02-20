@@ -1,0 +1,9 @@
+<launch>
+  
+  <!--<include file="$(find robots)/launch/kobuki_rplidar.launch"/> -->
+
+  <node pkg="fsm_bump_go" type="lidarBumpgo_node" name="lidarBuumpgp"> 
+    <rosparam command="load" file="$(find fsm_bump_go)/config/lidarBumpGoParms.yaml"/>
+  </node>
+   
+</launch>

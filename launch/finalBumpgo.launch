@@ -1,0 +1,8 @@
+<launch>
+
+	<node pkg="fsm_bump_go" type="finalbumpgo_node" name="FinalBumpGo" output="screen">
+		<rosparam command="load" file="$(find fsm_bump_go)/config/final_bump_go.yaml"/>
+		<rosparam command="load" file="$(find fsm_bump_go)/config/sensor_go.yaml"/>
+	</node>
+
+</launch>
