@@ -17,6 +17,12 @@
 #include "ros/ros.h"
 #include <string>
 
+enum
+{
+  LEFT = 0,
+  RIGHT = 1,
+};
+
 namespace fsm_bump_go
 {
 
@@ -36,13 +42,13 @@ lidarBumpGo::obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg)
   center_ = 0;
 
   /* Left range */
-  float nearest_distance = 100;
+  float nearest_distance = 100;  /* The value its aleatory */
   for (int i = 0; i < range_; i++)
   {
     if (nearest_distance > msg->ranges[i])
     {
       nearest_distance = msg->ranges[i];
-      nearest_position_ = 1;  /* Turn right */
+      nearest_position_ = LEFT;
     }
   }
 
@@ -52,7 +58,7 @@ lidarBumpGo::obtainDistance(const sensor_msgs::LaserScan::ConstPtr& msg)
     if (nearest_distance > msg->ranges[i])
     {
         nearest_distance = msg->ranges[i];
-        nearest_position_ = 0;  /* Turn left */
+        nearest_position_ = RIGHT; 
     }
   }
 
@@ -73,13 +79,13 @@ lidarBumpGo::sensorCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
     pressed_ = false;
   }
 
-  if (nearest_position_ == 1)
+  if (nearest_position_ == LEFT)
   {
     turn_direction_ = TURN_RIGHT;
   }
 
   // If bumper detects left or center, the robot turn left
-  if (nearest_position_ == 0)
+  if (nearest_position_ == RIGHT)
   {
     turn_direction_ = TURN_LEFT;
   }

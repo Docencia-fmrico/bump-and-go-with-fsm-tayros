@@ -18,6 +18,7 @@
 #include "ros/ros.h"
 #include "geometry_msgs/Twist.h"
 #include "kobuki_msgs/Led.h"
+#include "std_msgs/Int32.h"
 #include "kobuki_msgs/Sound.h"
 
 namespace fsm_bump_go
@@ -59,6 +60,8 @@ public:
   ros::NodeHandle n_;
 
 private:
+  void callback(const std_msgs::Int32::ConstPtr& msg);
+
   static const int GOING_FORWARD = 0;
   static const int GOING_BACK = 1;
   static const int TURNING_LEFT = 2;
@@ -77,8 +80,10 @@ private:
   ros::Publisher pub_vel_;
   ros::Publisher pub_led_;
   ros::Publisher pub_sound_;
+  ros::Subscriber move_sub_;
 
   int state_;
+  int movement_;
   double linear_velocity_x;
   double angular_velocity_z;
 

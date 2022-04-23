@@ -35,7 +35,6 @@ public:
 private:
   float MIN_DISTANCE_;
 
-
   int nearest_position_ = 0;
 
   int center_;
